@@ -1,6 +1,5 @@
 import { StatusCodes } from "http-status-codes";
 import { categoryService } from "~/services/categoryService";
-import ApiError from "~/utils/ApiError";
 import { formatResponse } from "~/utils/formatResponse";
 
 const createNew = async (req, res, next) => {
@@ -23,21 +22,9 @@ const getAll = async (req, res, next) => {
     }
 }
 
-const checkCategoryExists = async (id) => {
-    const isExists = await categoryService.checkIdExists(id);
-    if (!isExists) {
-        return false;
-    }
-    return true;
-}
-
 const updateById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const isValidId = await checkCategoryExists(id);
-        if (!isValidId) {
-            throw new ApiError(StatusCodes.NOT_FOUND, 'Invalid ID or ID does not exist!');
-        }
         const updatedCategory = await categoryService.updateById(id, req.body);
         const response = formatResponse(StatusCodes.OK, "success", 'Update category success!', updatedCategory);
         res.status(StatusCodes.OK).json(response);
@@ -49,10 +36,6 @@ const updateById = async (req, res, next) => {
 const deleteById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const isValidId = await checkCategoryExists(id);
-        if (!isValidId) {
-            throw new ApiError(StatusCodes.NOT_FOUND, 'Invalid ID or ID does not exist!');
-        }
         const updatedCategory = await categoryService.deleteById(id);
         const response = formatResponse(StatusCodes.OK, "success", 'Delete category success!', updatedCategory);
         res.status(StatusCodes.OK).json(response);

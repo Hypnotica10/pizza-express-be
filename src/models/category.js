@@ -2,7 +2,7 @@ import Joi from 'joi';
 import mongoose from 'mongoose';
 
 
-const CATEGORY_COLLECTION_NAME = "categories";
+export const CATEGORY_COLLECTION_NAME = "categories";
 export const CATEGORY_SCHEMA = Joi.object({
     // id: Joi.string().required().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE),
     name: Joi.string().required().trim().strict(),
